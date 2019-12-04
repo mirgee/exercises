@@ -50,8 +50,8 @@ nmap ySs <Plug>YSsurround
 nmap yss <Plug>Yssurround
 nmap yS <Plug>YSurround
 nmap ys <Plug>Ysurround
-nnoremap <SNR>87_: :=v:count ? v:count : ''
 nnoremap <SNR>80_: :=v:count ? v:count : ''
+nnoremap <SNR>87_: :=v:count ? v:count : ''
 vnoremap <silent> <Plug>NetrwBrowseXVis :call netrw#BrowseXVis()
 nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(netrw#GX(),netrw#CheckIfRemote(netrw#GX()))
 nnoremap <silent> <Plug>SurroundRepeat .
@@ -88,9 +88,9 @@ abbr jj :w
 abbr pd import pdb; pdb.set_trace()
 let &cpo=s:cpo_save
 unlet s:cpo_save
-set paste
 set autowrite
 set backspace=indent,eol,start
+set balloonexpr=SyntasticBalloonsExprNotifier()
 set completefunc=youcompleteme#CompleteFunc
 set completeopt=preview,menuone
 set cpoptions=aAceFsB
@@ -103,6 +103,7 @@ set ignorecase
 set laststatus=2
 set mouse=a
 set printoptions=paper:a4
+set ruler
 set runtimepath=~/.vim,~/.vim/bundle/Vundle.vim,~/.vim/bundle/YouCompleteMe,~/.vim/bundle/SimpylFold,~/.vim/bundle/syntastic,~/.vim/bundle/vim-isort,~/.vim/bundle/nerdtree,~/.vim/bundle/ctrlp.vim,~/.vim/bundle/vim-ripgrep,~/.vim/bundle/vim-fugitive,~/.vim/bundle/vim-gitgutter,~/.vim/bundle/lightline.vim,~/.vim/bundle/nerdtree-git-plugin,~/.vim/bundle/vim-nerdtree-syntax-highlight,~/.vim/bundle/vim-surround,~/.vim/bundle/indentpython.vim,~/.vim/bundle/gruvbox,/var/lib/vim/addons,/etc/vim,/usr/share/vim/vimfiles,/usr/share/vim/vim81,/usr/share/vim/vimfiles/after,/etc/vim/after,/var/lib/vim/addons/after,~/.vim/after,~/.vim/bundle/Vundle.vim,~/.vim/bundle/Vundle.vim/after,~/.vim/bundle/YouCompleteMe/after,~/.vim/bundle/SimpylFold/after,~/.vim/bundle/syntastic/after,~/.vim/bundle/vim-isort/after,~/.vim/bundle/nerdtree/after,~/.vim/bundle/ctrlp.vim/after,~/.vim/bundle/vim-ripgrep/after,~/.vim/bundle/vim-fugitive/after,~/.vim/bundle/vim-gitgutter/after,~/.vim/bundle/lightline.vim/after,~/.vim/bundle/nerdtree-git-plugin/after,~/.vim/bundle/vim-nerdtree-syntax-highlight/after,~/.vim/bundle/vim-surround/after,~/.vim/bundle/indentpython.vim/after,~/.vim/bundle/gruvbox/after
 set scrolloff=3
 set shiftwidth=2
@@ -132,7 +133,7 @@ set shortmess=aoO
 argglobal
 %argdel
 $argadd 1.html
-edit assign.js
+edit calculator.html
 set splitbelow splitright
 wincmd t
 set winminheight=0
@@ -172,8 +173,8 @@ setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
 set colorcolumn=0
 setlocal colorcolumn=0
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
-setlocal commentstring=//%s
+setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
+setlocal commentstring=<!--%s-->
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
@@ -191,8 +192,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'javascript'
-setlocal filetype=javascript
+if &filetype != 'html'
+setlocal filetype=html
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
@@ -208,7 +209,7 @@ setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=croql
+setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal formatprg=
 setlocal grepprg=
@@ -216,8 +217,8 @@ setlocal iminsert=0
 setlocal imsearch=-1
 setlocal include=
 setlocal includeexpr=
-setlocal indentexpr=GetJavascriptIndent()
-setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e,0],0)
+setlocal indentexpr=HtmlIndent()
+setlocal indentkeys=o,O,<Return>,<>>,{,},!^F
 setlocal noinfercase
 setlocal iskeyword=@,48-57,_,192-255
 setlocal keywordprg=
@@ -227,14 +228,14 @@ setlocal lispwords=
 setlocal nolist
 setlocal makeencoding=
 setlocal makeprg=
-setlocal matchpairs=(:),{:},[:]
+setlocal matchpairs=(:),{:},[:],<:>
 setlocal modeline
 setlocal modifiable
 setlocal nrformats=bin,octal,hex
 set number
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=javascriptcomplete#CompleteJS
+setlocal omnifunc=htmlcomplete#CompleteTags
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -260,8 +261,8 @@ setlocal statusline=%{lightline#link()}%#LightlineLeft_active_0#%(\ %{lightline#
 setlocal suffixesadd=
 setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != 'javascript'
-setlocal syntax=javascript
+if &syntax != 'html'
+setlocal syntax=html
 endif
 setlocal tabstop=2
 setlocal tagcase=
@@ -281,16 +282,30 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 3 - ((2 * winheight(0) + 23) / 46)
+4
+normal! zo
+let s:l = 17 - ((16 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-3
-normal! 013|
+17
+normal! 011|
 tabnext 1
-badd +1 assign.js
+badd +5 calculator.html
 badd +8 1.html
+badd +8 pow.js
+badd +4 backticks.js
+badd +3 assign.js
 badd +1 alert.js
+badd +15 conversions.js
+badd +7 namofjs.js
+badd +6 nameofjs.js
+badd +11 showthesign.js
+badd +7 terciary.js
+badd +3 boolofundef.js
+badd +7 repeatuntil.js
+badd +10 primenumbers.js
+badd +0 filterRange.html
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif
