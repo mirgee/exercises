@@ -12,6 +12,6 @@ defmodule Discuss.Discussions.Topic do
   def changeset(topic, attrs) do
     topic
     |> cast(attrs, [:title])
-    |> validate_required([:title])
+    |> validate_required([:title], [message: "REALLY can't be blank"])
   end
 end
