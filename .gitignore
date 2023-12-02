@@ -1,0 +1,24 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+.pnp.*
+.cache
+
+# Solidity
+build/
+bin/
+abi/
+*.swp
+*.swo
+
+# General
+.DS_Store
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+*.log
