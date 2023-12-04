@@ -22,3 +22,5 @@ abi/
 .env.test
 .env.production
 *.log
+
+**/.next

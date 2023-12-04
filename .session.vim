@@ -13,25 +13,45 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +8 ~/Source/ethereum-course/ballot/package.json
-badd +36 ~/Source/ethereum-course/ballot/contracts/Lottery.sol
-badd +1 ~/Source/ethereum-course/inbox/contracts/Inbox.sol
-badd +23 ~/Source/ethereum-course/ballot/compile.js
-badd +29 ~/Source/ethereum-course/ballot/deploy.js
-badd +105 ~/Source/ethereum-course/ballot/test/Lottery.test.js
-badd +13 ~/Source/ethereum-course/lottery-react/package.json
-badd +1 ~/Source/ethereum-course/lottery-react/public/index.html
-badd +16 ~/Source/ethereum-course/inbox/package.json
-badd +1 ~/Source/ethereum-course/lottery-react/src/index.js
-badd +27 ~/Source/ethereum-course/lottery-react/src/App.js
-badd +3 ~/Source/ethereum-course/lottery-react/src/web3.js
-badd +74 ~/Source/ethereum-course/lottery-react/src/lottery.js
-badd +24 ~/Source/ethereum-course/.gitignore
-badd +35 ~/Source/ethereum-course/campaign/contracts/Campaign.sol
+badd +8 ballot/package.json
+badd +36 ballot/contracts/Lottery.sol
+badd +1 inbox/contracts/Inbox.sol
+badd +23 ballot/compile.js
+badd +29 ballot/deploy.js
+badd +105 ballot/test/Lottery.test.js
+badd +13 lottery-react/package.json
+badd +1 lottery-react/public/index.html
+badd +16 inbox/package.json
+badd +1 lottery-react/src/index.js
+badd +13 lottery-react/src/App.js
+badd +1 lottery-react/src/web3.js
+badd +74 lottery-react/src/lottery.js
+badd +24 .gitignore
+badd +1 campaign/contracts/Campaign.sol
+badd +18 kickstart/package.json
+badd +29 kickstart/ethereum/deploy.js
+badd +11 kickstart/ethereum/compile.js
+badd +78 kickstart/ethereum/contracts/Campaign.sol
+badd +1 inbox/compile.js
+badd +55 kickstart/test/Campaign.test.js
+badd +7 inbox/test/Inbox.test.js
+badd +0 kickstart/ethereum/build/Campaign.json
+badd +1 kickstart/ethereum/build/CampaignFactory.json
+badd +1 inbox/deploy.js
+badd +1 kickstart/ADDRESS.md
+badd +23 kickstart/pages/index.js
+badd +17 kickstart/ethereum/web3.js
+badd +7 kickstart/ethereum/factory.js
+badd +0 lottery-react/src/setupTests.js
+badd +3 kickstart/components/Layout.js
+badd +17 kickstart/components/Header.js
+badd +34 kickstart/pages/campaigns/new.js
+badd +12 ~/Source/ethereum-course/kickstart/pages/campaigns/\[address].js
 argglobal
 %argdel
-edit ~/Source/ethereum-course/campaign/contracts/Campaign.sol
+edit kickstart/ethereum/contracts/Campaign.sol
 argglobal
+balt ~/Source/ethereum-course/kickstart/pages/campaigns/\[address].js
 setlocal fdm=indent
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -40,12 +60,12 @@ setlocal fdl=99
 setlocal fml=1
 setlocal fdn=20
 setlocal nofen
-let s:l = 9 - ((8 * winheight(0) + 35) / 71)
+let s:l = 78 - ((23 * winheight(0) + 35) / 71)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 9
-normal! 018|
+keepjumps 78
+normal! 023|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
