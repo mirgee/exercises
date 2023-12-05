@@ -30,12 +30,11 @@ export default function CampaignNew () {
       setLoading(false);
     }
   }
-
   
   return (
     <Layout>
       <h1>New Campaign</h1>
-      <Form onSubmit={onSubmit} error={errorMessage}>
+      <Form onSubmit={onSubmit} error={!!errorMessage}>
         <Form.Field>
           <label>Minimum Contribution</label>
           <Input label="wei" labelPosition="right" value={minimumContribution}

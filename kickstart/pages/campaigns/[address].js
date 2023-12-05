@@ -1,13 +1,14 @@
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import Campaign from '../../ethereum/campaign';
-import { Card } from 'semantic-ui-react';
+import { Button, Card, Grid } from 'semantic-ui-react';
+import ContributeForm from '../../components/ContributeForm';
+import Link from 'next/link';
 
 export async function getServerSideProps(context) {
   const { address } = context.params;
   const campaign = Campaign(address);
   const summary = await campaign.methods.getSummary().call();
-  console.log(summary);
   return {
     props: {
       minimumContribution: summary[0].toString(),
@@ -41,7 +42,7 @@ const CampaignDetails = (props) => {
       },
       {
         header: minimumContribution,
-        meta: 'Minimum Contribution (wei)',
+        meta: 'Minimum Contribution (ether)',
         description: 'You must contribute at least this much wei to become an approver'
       },
       {
@@ -67,8 +68,26 @@ const CampaignDetails = (props) => {
   return (
     <Layout>
       <h1>Campaign Details</h1>
-      <p>Campaign ID: {address}</p>
-      {renderCards()}
+      <p>Campaign Address: {address}</p>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column width={10}>
+            {renderCards()}
+          </Grid.Column>
+          <Grid.Column width={6}>
+            <ContributeForm address={address}/>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Link href={`/campaigns/${address}/requests`}>
+              <Button primary>
+                View Requests
+              </Button>
+            </Link>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     </Layout>
   );
 };
