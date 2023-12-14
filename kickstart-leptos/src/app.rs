@@ -9,6 +9,7 @@ use ethers::{
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
+use log::info;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -36,7 +37,7 @@ pub fn App() -> impl IntoView {
         }>
             <main>
                 <Routes>
-                    <Route path="" view=HomePage ssr=SsrMode::Async/>
+                    <Route path="" view=HomePage ssr=SsrMode::Async />
                 </Routes>
             </main>
         </Router>
@@ -53,23 +54,29 @@ async fn fetch_campaigns() -> Result<Vec<Campaign<Provider<Http>>>, AppError> {
     Ok(campaigns)
 }
 
-pub fn render_campaigns() -> impl IntoView {
-    let campaign_addresses = create_resource(
+/// Renders the home page of your application.
+#[component]
+fn HomePage() -> impl IntoView {
+    // Creates a reactive value to update the button
+    let campaign_addresses = create_local_resource(
         || (),
         |_| async move {
-            fetch_campaigns()
+            info!("fetching campaigns");
+            let campaigns = fetch_campaigns()
                 .await
                 .unwrap()
                 .iter()
                 .map(|campaign| campaign.address().to_string())
-                .collect::<Vec<String>>()
+                .collect::<Vec<String>>();
+            info!("campaigns: {:?}", campaigns);
+            campaigns
         },
     );
 
     view! {
         <h1>"Campaigns"</h1>
         {
-            match campaign_addresses.get() {
+            move || match campaign_addresses.get() {
                 Some(campaign_addresses) => {
                     view! {
                         <ul>
@@ -90,19 +97,5 @@ pub fn render_campaigns() -> impl IntoView {
                 }
             }
         }
-    }
-}
-
-/// Renders the home page of your application.
-#[component]
-fn HomePage() -> impl IntoView {
-    // Creates a reactive value to update the button
-    let (count, set_count) = create_signal(0);
-    let on_click = move |_| set_count.update(|count| *count += 1);
-
-    view! {
-        <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
-        {render_campaigns()}
     }
 }

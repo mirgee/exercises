@@ -4,8 +4,19 @@ use ethers::{
     providers::{Http, Provider},
     types::Address,
 };
+use web3::{transports::eip_1193, Web3};
+use web3::{transports::eip_1193::Eip1193, Transport};
 
 use self::contracts::{campaign::Campaign, campaign_factory::CampaignFactory};
+
+pub async fn create_web3_instance_1() -> Web3<Eip1193> {
+    let provider = eip_1193::Provider::default().unwrap().unwrap();
+    let transport = eip_1193::Eip1193::new(provider);
+
+    let web3 = web3::Web3::new(transport.clone());
+
+    web3
+}
 
 pub fn create_web3_instance() -> Provider<Http> {
     let provider =
