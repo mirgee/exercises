@@ -45,15 +45,19 @@ impl LinkedList {
                 // NOOP
             }
             (Some(prev), Some(next)) => {
+                // Remove node from the chain
                 prev.borrow_mut().next_node = node.borrow().next_node.clone();
                 next.borrow_mut().prev_node = node.borrow().prev_node.clone();
 
+                // Set successor to current tail to be node
                 let prev_tail = self.tail.as_ref().unwrap();
                 prev_tail.borrow_mut().next_node = Some(node.clone());
 
+                // Set correct neighbors for node
                 node.borrow_mut().next_node = None;
                 node.borrow_mut().prev_node = Some(prev_tail.clone());
 
+                // Set new tail
                 self.tail = Some(node.clone());
             }
         }
@@ -78,9 +82,13 @@ impl LinkedList {
             if let Some(head_next) = head.borrow().next_node.as_ref() {
                 head_next.borrow_mut().prev_node = None;
                 self.head = Some(head_next.clone());
+            } else {
+                self.head = None;
             }
+            Some(head.clone())
+        } else {
+            None
         }
-        todo!()
     }
 }
 
@@ -130,6 +138,17 @@ impl LRUCache {
             0
         }
     }
+
+    pub fn print(&self) {
+        let mut head = self.cache_vals.head.clone();
+        while head.is_some() {
+            let head_local = head.clone().unwrap();
+            let head_local = head_local.borrow();
+            print!("({}, {})", head_local.key, head_local.value);
+            head = head_local.next_node.clone();
+        }
+        println!("");
+    }
 }
 
 #[cfg(test)]
@@ -138,8 +157,19 @@ mod tests {
 
     #[test]
     fn test_fetch_most_recently_watched_0() {
-        let mut cache = LRUCache::new(10);
+        let mut cache = LRUCache::new(3);
 
-        cache.set(10, 10);
+        cache.set(10, 20);
+        cache.print();
+        cache.set(15, 25);
+        cache.print();
+        cache.set(20, 30);
+        cache.print();
+        cache.set(25, 35);
+        cache.print();
+        cache.set(5, 40);
+        cache.print();
+        cache.get(25);
+        cache.print();
     }
 }

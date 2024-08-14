@@ -1,0 +1,6 @@
+[package]
+name = "fetch_most_frequently_watched"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]

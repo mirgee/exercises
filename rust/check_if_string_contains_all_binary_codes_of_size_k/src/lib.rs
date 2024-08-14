@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/check-if-a-string-contains-all-binary-codes-of-size-k/description/
+
 use std::collections::HashSet;
 
 pub fn check_if_string_contains_all_binary_codes_of_size_k(s: String, k: i32) -> bool {

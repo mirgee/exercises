@@ -1,3 +1,4 @@
+// https://leetcode.com/problems/remove-all-adjacent-duplicates-in-string/
 fn adjacent_duplicates(s: String) -> String {
     let mut stack: Vec<char> = Vec::with_capacity(s.len());
     for x in s.chars() {
