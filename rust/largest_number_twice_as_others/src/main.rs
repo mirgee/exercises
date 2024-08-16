@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/largest-number-at-least-twice-of-others/description/
+
 fn largest_number_twice_as_others(nums: Vec<i32>) -> i32 {
     let mut max = nums[0];    
     let mut j = 0;
